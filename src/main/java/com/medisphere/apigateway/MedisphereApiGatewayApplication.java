@@ -9,6 +9,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 public class MedisphereApiGatewayApplication {
 
 	public static void main(String[] args) {
+		System.out.println("@@@ MANUAL PROXY GATEWAY V2 STARTING @@@");
 		SpringApplication.run(MedisphereApiGatewayApplication.class, args);
 	}
 

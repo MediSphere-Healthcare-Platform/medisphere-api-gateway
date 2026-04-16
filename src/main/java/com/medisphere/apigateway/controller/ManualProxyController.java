@@ -10,10 +10,12 @@ import java.util.Enumeration;
 @RestController
 public class ManualProxyController {
 
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(ManualProxyController.class);
     private final RestTemplate restTemplate = new RestTemplate();
 
     @RequestMapping(value = "/{service}/**")
     public ResponseEntity<byte[]> proxy(@PathVariable String service, @RequestBody(required = false) byte[] body, HttpServletRequest request) {
+        logger.info("@@@ PROXYING REQUEST: {} {} @@@", request.getMethod(), request.getRequestURI());
         
         //Resolve Target Details
         String targetHost = service + "-service";

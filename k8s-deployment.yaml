@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: api-gateway
-        image: medisphere-api-gateway:latest
+        image: medisphere-api-gateway:v2
         imagePullPolicy: Never
         ports:
         - containerPort: 8080
