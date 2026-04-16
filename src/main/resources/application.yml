@@ -8,6 +8,8 @@ spring:
     user:
       name: admin
       password: password123
+  mvc:
+    static-path-pattern: /resources/**
   cloud:
     gateway:
       mvc:
