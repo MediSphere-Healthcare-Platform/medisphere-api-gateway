@@ -13,24 +13,131 @@ spring:
   cloud:
     gateway:
       routes:
+        # Appointment Service
+        - id: appointment-actuator
+          uri: http://appointment-service:8081
+          predicates:
+            - Path=/appointment/actuator/**
+          filters:
+            - RewritePath=/appointment/(?<remaining>.*), /${remaining}
         - id: appointment-service
           uri: http://appointment-service:8081
           predicates:
             - Path=/appointment/**
           filters:
             - RewritePath=/appointment/(?<remaining>.*), /api/v1/${remaining}
+
+        # Payment Service
+        - id: payment-actuator
+          uri: http://payment-service:8082
+          predicates:
+            - Path=/payment/actuator/**
+          filters:
+            - RewritePath=/payment/(?<remaining>.*), /${remaining}
         - id: payment-service
           uri: http://payment-service:8082
           predicates:
             - Path=/payment/**
           filters:
             - RewritePath=/payment/(?<remaining>.*), /api/v1/${remaining}
+
+        # Auth Service
+        - id: auth-actuator
+          uri: http://auth-service:8083
+          predicates:
+            - Path=/auth/actuator/**
+          filters:
+            - RewritePath=/auth/(?<remaining>.*), /${remaining}
         - id: auth-service
           uri: http://auth-service:8083
           predicates:
             - Path=/auth/**
           filters:
             - RewritePath=/auth/(?<remaining>.*), /api/v1/${remaining}
+
+        # Patient Service
+        - id: patient-actuator
+          uri: http://patient-service:8084
+          predicates:
+            - Path=/patient/actuator/**
+          filters:
+            - RewritePath=/patient/(?<remaining>.*), /${remaining}
+        - id: patient-service
+          uri: http://patient-service:8084
+          predicates:
+            - Path=/patient/**
+          filters:
+            - RewritePath=/patient/(?<remaining>.*), /${remaining}
+
+        # Doctor Service
+        - id: doctor-actuator
+          uri: http://doctor-service:8085
+          predicates:
+            - Path=/doctor/actuator/**
+          filters:
+            - RewritePath=/doctor/(?<remaining>.*), /${remaining}
+        - id: doctor-service
+          uri: http://doctor-service:8085
+          predicates:
+            - Path=/doctor/**
+          filters:
+            - RewritePath=/doctor/(?<remaining>.*), /${remaining}
+
+        # Telemedicine Service
+        - id: telemedicine-actuator
+          uri: http://telemedicine-service:8086
+          predicates:
+            - Path=/telemedicine/actuator/**
+          filters:
+            - RewritePath=/telemedicine/(?<remaining>.*), /${remaining}
+        - id: telemedicine-service
+          uri: http://telemedicine-service:8086
+          predicates:
+            - Path=/telemedicine/**
+          filters:
+            - RewritePath=/telemedicine/(?<remaining>.*), /${remaining}
+
+        # Notification Service
+        - id: notification-actuator
+          uri: http://notification-service:8087
+          predicates:
+            - Path=/notification/actuator/**
+          filters:
+            - RewritePath=/notification/(?<remaining>.*), /${remaining}
+        - id: notification-service
+          uri: http://notification-service:8087
+          predicates:
+            - Path=/notification/**
+          filters:
+            - RewritePath=/notification/(?<remaining>.*), /${remaining}
+
+        # AI Symptom Service
+        - id: aisymptom-actuator
+          uri: http://aisymptomcheck-service:8088
+          predicates:
+            - Path=/ai-symptom/actuator/**
+          filters:
+            - RewritePath=/ai-symptom/(?<remaining>.*), /${remaining}
+        - id: aisymptom-service
+          uri: http://aisymptomcheck-service:8088
+          predicates:
+            - Path=/ai-symptom/**
+          filters:
+            - RewritePath=/ai-symptom/(?<remaining>.*), /${remaining}
+
+        # Admin Service
+        - id: admin-actuator
+          uri: http://admin-service:8089
+          predicates:
+            - Path=/admin/actuator/**
+          filters:
+            - RewritePath=/admin/(?<remaining>.*), /${remaining}
+        - id: admin-service
+          uri: http://admin-service:8089
+          predicates:
+            - Path=/admin/**
+          filters:
+            - RewritePath=/admin/(?<remaining>.*), /${remaining}
 
 eureka:
   client:
@@ -45,3 +152,8 @@ management:
   endpoint:
     health:
       show-details: always
+
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.web: DEBUG
