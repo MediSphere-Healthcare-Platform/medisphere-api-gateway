@@ -12,58 +12,72 @@ spring:
           predicates:
             - Path=/appointment/**
           filters:
-            - RewritePath=/appointment/(?<segment>.*), /api/v1/$\{segment}
+            - RewritePath=/appointment/(?<remaining>.*), /api/v1/${remaining}
+
         - id: payment-service
           uri: http://payment-service:8082
           predicates:
             - Path=/payment/**
           filters:
-            - RewritePath=/payment/(?<segment>.*), /api/v1/$\{segment}
+            - RewritePath=/payment/(?<remaining>.*), /api/v1/${remaining}
+
         - id: auth-service
           uri: http://auth-service:8083
           predicates:
             - Path=/auth/**
           filters:
-            - RewritePath=/auth/(?<segment>.*), /api/v1/$\{segment}
+            - RewritePath=/auth/(?<remaining>.*), /api/v1/${remaining}
+
         - id: patient-service
           uri: http://patient-service:8084
           predicates:
             - Path=/patient/**
           filters:
-            - RewritePath=/patient/(?<segment>.*), /api/v1/$\{segment}
+            - RewritePath=/patient/(?<remaining>.*), /${remaining}
+
         - id: doctor-service
           uri: http://doctor-service:8085
           predicates:
             - Path=/doctor/**
           filters:
-            - RewritePath=/doctor/(?<segment>.*), /api/v1/$\{segment}
+            - RewritePath=/doctor/(?<remaining>.*), /${remaining}
+
         - id: telemedicine-service
           uri: http://telemedicine-service:8086
           predicates:
             - Path=/telemedicine/**
           filters:
-            - RewritePath=/telemedicine/(?<segment>.*), /api/v1/$\{segment}
+            - RewritePath=/telemedicine/(?<remaining>.*), /${remaining}
+
         - id: notification-service
           uri: http://notification-service:8087
           predicates:
             - Path=/notification/**
           filters:
-            - RewritePath=/notification/(?<segment>.*), /api/v1/$\{segment}
-        - id: aisymptomcheck-service
+            - RewritePath=/notification/(?<remaining>.*), /${remaining}
+
+        - id: ai-symptom-service
           uri: http://aisymptomcheck-service:8088
           predicates:
             - Path=/ai-symptom/**
           filters:
-            - RewritePath=/ai-symptom/(?<segment>.*), /api/v1/$\{segment}
+            - RewritePath=/ai-symptom/(?<remaining>.*), /${remaining}
+
         - id: admin-service
           uri: http://admin-service:8089
           predicates:
             - Path=/admin/**
           filters:
-            - RewritePath=/admin/(?<segment>.*), /api/v1/$\{segment}
+            - RewritePath=/admin/(?<remaining>.*), /${remaining}
 
 eureka:
   client:
-    service-url:
-      defaultZone: http://eureka-server:8761/eureka/
-    enabled: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.http.server.reactive: DEBUG
+    org.springframework.web.reactive: DEBUG
+    reactor.netty: DEBUG
