@@ -1,0 +1,69 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: medisphere-api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: appointment-service
+          uri: http://appointment-service:8081
+          predicates:
+            - Path=/appointment/**
+          filters:
+            - RewritePath=/appointment/(?<segment>.*), /api/v1/$\{segment}
+        - id: payment-service
+          uri: http://payment-service:8082
+          predicates:
+            - Path=/payment/**
+          filters:
+            - RewritePath=/payment/(?<segment>.*), /api/v1/$\{segment}
+        - id: auth-service
+          uri: http://auth-service:8083
+          predicates:
+            - Path=/auth/**
+          filters:
+            - RewritePath=/auth/(?<segment>.*), /api/v1/$\{segment}
+        - id: patient-service
+          uri: http://patient-service:8084
+          predicates:
+            - Path=/patient/**
+          filters:
+            - RewritePath=/patient/(?<segment>.*), /api/v1/$\{segment}
+        - id: doctor-service
+          uri: http://doctor-service:8085
+          predicates:
+            - Path=/doctor/**
+          filters:
+            - RewritePath=/doctor/(?<segment>.*), /api/v1/$\{segment}
+        - id: telemedicine-service
+          uri: http://telemedicine-service:8086
+          predicates:
+            - Path=/telemedicine/**
+          filters:
+            - RewritePath=/telemedicine/(?<segment>.*), /api/v1/$\{segment}
+        - id: notification-service
+          uri: http://notification-service:8087
+          predicates:
+            - Path=/notification/**
+          filters:
+            - RewritePath=/notification/(?<segment>.*), /api/v1/$\{segment}
+        - id: aisymptomcheck-service
+          uri: http://aisymptomcheck-service:8088
+          predicates:
+            - Path=/ai-symptom/**
+          filters:
+            - RewritePath=/ai-symptom/(?<segment>.*), /api/v1/$\{segment}
+        - id: admin-service
+          uri: http://admin-service:8089
+          predicates:
+            - Path=/admin/**
+          filters:
+            - RewritePath=/admin/(?<segment>.*), /api/v1/$\{segment}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+    enabled: true

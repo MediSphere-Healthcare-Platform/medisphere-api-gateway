@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.medisphere</groupId>
 	<artifactId>medisphere-api-gateway</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>medisphere-api-gateway</name>
 	<description>API gateway service module for Medisphere solution</description>
 	<url/>
