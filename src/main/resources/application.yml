@@ -12,6 +12,12 @@ spring:
     gateway:
       mvc:
         routes:
+          - id: appointment-actuator
+            uri: http://appointment-service:8081
+            predicates:
+              - Path=/appointment/actuator/**
+            filters:
+              - RewritePath=/appointment/(?<remaining>.*), /${remaining}
           - id: appointment-service
             uri: http://appointment-service:8081
             predicates:
@@ -19,6 +25,12 @@ spring:
             filters:
               - RewritePath=/appointment/(?<remaining>.*), /api/v1/${remaining}
 
+          - id: payment-actuator
+            uri: http://payment-service:8082
+            predicates:
+              - Path=/payment/actuator/**
+            filters:
+              - RewritePath=/payment/(?<remaining>.*), /${remaining}
           - id: payment-service
             uri: http://payment-service:8082
             predicates:
@@ -26,6 +38,12 @@ spring:
             filters:
               - RewritePath=/payment/(?<remaining>.*), /api/v1/${remaining}
 
+          - id: auth-actuator
+            uri: http://auth-service:8083
+            predicates:
+              - Path=/auth/actuator/**
+            filters:
+              - RewritePath=/auth/(?<remaining>.*), /${remaining}
           - id: auth-service
             uri: http://auth-service:8083
             predicates:
@@ -33,6 +51,12 @@ spring:
             filters:
               - RewritePath=/auth/(?<remaining>.*), /api/v1/${remaining}
 
+          - id: patient-actuator
+            uri: http://patient-service:8084
+            predicates:
+              - Path=/patient/actuator/**
+            filters:
+              - RewritePath=/patient/(?<remaining>.*), /${remaining}
           - id: patient-service
             uri: http://patient-service:8084
             predicates:
@@ -40,6 +64,12 @@ spring:
             filters:
               - RewritePath=/patient/(?<remaining>.*), /${remaining}
 
+          - id: doctor-actuator
+            uri: http://doctor-service:8085
+            predicates:
+              - Path=/doctor/actuator/**
+            filters:
+              - RewritePath=/doctor/(?<remaining>.*), /${remaining}
           - id: doctor-service
             uri: http://doctor-service:8085
             predicates:
@@ -47,6 +77,12 @@ spring:
             filters:
               - RewritePath=/doctor/(?<remaining>.*), /${remaining}
 
+          - id: telemedicine-actuator
+            uri: http://telemedicine-service:8086
+            predicates:
+              - Path=/telemedicine/actuator/**
+            filters:
+              - RewritePath=/telemedicine/(?<remaining>.*), /${remaining}
           - id: telemedicine-service
             uri: http://telemedicine-service:8086
             predicates:
@@ -54,6 +90,12 @@ spring:
             filters:
               - RewritePath=/telemedicine/(?<remaining>.*), /${remaining}
 
+          - id: notification-actuator
+            uri: http://notification-service:8087
+            predicates:
+              - Path=/notification/actuator/**
+            filters:
+              - RewritePath=/notification/(?<remaining>.*), /${remaining}
           - id: notification-service
             uri: http://notification-service:8087
             predicates:
@@ -61,6 +103,12 @@ spring:
             filters:
               - RewritePath=/notification/(?<remaining>.*), /${remaining}
 
+          - id: ai-symptom-actuator
+            uri: http://aisymptomcheck-service:8088
+            predicates:
+              - Path=/ai-symptom/actuator/**
+            filters:
+              - RewritePath=/ai-symptom/(?<remaining>.*), /${remaining}
           - id: ai-symptom-service
             uri: http://aisymptomcheck-service:8088
             predicates:
@@ -68,6 +116,12 @@ spring:
             filters:
               - RewritePath=/ai-symptom/(?<remaining>.*), /${remaining}
 
+          - id: admin-actuator
+            uri: http://admin-service:8089
+            predicates:
+              - Path=/admin/actuator/**
+            filters:
+              - RewritePath=/admin/(?<remaining>.*), /${remaining}
           - id: admin-service
             uri: http://admin-service:8089
             predicates:
