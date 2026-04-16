@@ -15,7 +15,7 @@ public class ManualProxyController {
     @RequestMapping(value = "/{service}/**")
     public ResponseEntity<byte[]> proxy(@PathVariable String service, @RequestBody(required = false) byte[] body, HttpServletRequest request) {
         
-        // 1. Resolve Target Details
+        //Resolve Target Details
         String targetHost = service + "-service";
         int port = 8081; // Default
         boolean useApiV1 = false;
@@ -36,7 +36,7 @@ public class ManualProxyController {
         String query = request.getQueryString();
         String subPath = path.replace("/" + service, "");
 
-        // 2. Build Target URL
+        //Build Target URL
         String targetUrl;
         if (path.contains("/actuator/")) {
             targetUrl = "http://" + targetHost + ":" + port + subPath;
@@ -49,7 +49,7 @@ public class ManualProxyController {
 
         if (query != null) targetUrl += "?" + query;
 
-        // 2. Forward Headers
+        //Forward Headers
         HttpHeaders headers = new HttpHeaders();
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
@@ -57,7 +57,7 @@ public class ManualProxyController {
             headers.add(name, request.getHeader(name));
         }
 
-        // 3. Execute Request
+        //Execute Request
         try {
             return restTemplate.exchange(targetUrl, HttpMethod.valueOf(request.getMethod()), new HttpEntity<>(body, headers), byte[].class);
         } catch (Exception e) {
