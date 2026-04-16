@@ -8,50 +8,8 @@ spring:
     user:
       name: admin
       password: password123
-  mvc:
-    static-path-pattern: /resources/**
   cloud:
     gateway:
-      mvc:
-        routes:
-          - id: appointment-actuator
-            uri: http://appointment-service:8081
-            predicates:
-              - Path=/appointment/actuator/**
-            filters:
-              - RewritePath=/appointment/(?<remaining>.*), /${remaining}
-          - id: appointment-service
-            uri: http://appointment-service:8081
-            predicates:
-              - Path=/appointment/**
-            filters:
-              - RewritePath=/appointment/(?<remaining>.*), /api/v1/${remaining}
-
-          - id: payment-actuator
-            uri: http://payment-service:8082
-            predicates:
-              - Path=/payment/actuator/**
-            filters:
-              - RewritePath=/payment/(?<remaining>.*), /${remaining}
-          - id: payment-service
-            uri: http://payment-service:8082
-            predicates:
-              - Path=/payment/**
-            filters:
-              - RewritePath=/payment/(?<remaining>.*), /api/v1/${remaining}
-
-          - id: auth-actuator
-            uri: http://auth-service:8083
-            predicates:
-              - Path=/auth/actuator/**
-            filters:
-              - RewritePath=/auth/(?<remaining>.*), /${remaining}
-          - id: auth-service
-            uri: http://auth-service:8083
-            predicates:
-              - Path=/auth/**
-            filters:
-              - RewritePath=/auth/(?<remaining>.*), /api/v1/${remaining}
 
           - id: patient-actuator
             uri: http://patient-service:8084
