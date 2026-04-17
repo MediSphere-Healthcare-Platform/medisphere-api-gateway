@@ -16,41 +16,81 @@ spring:
         - id: appointment-service
           uri: http://appointment-service:8081
           predicates:
-            - Path=/appointments/**
+            - Path=/api/appointments/**
           filters:
-            - RewritePath=/appointments/(?<segment>.*), /api/v1/appointments/${segment}
+            - RewritePath=/api/appointments/(?<segment>.*), /api/v1/appointments/${segment}
 
         # ================= PAYMENT =================
         - id: payment-service
           uri: http://payment-service:8082
           predicates:
-            - Path=/payments/**
+            - Path=/api/payment/**
           filters:
-            - RewritePath=/payments/(?<segment>.*), /api/v1/payments/${segment}
+            - RewritePath=/api/payment/(?<segment>.*), /api/v1/payment/${segment}
 
         # ================= AUTH =================
         - id: auth-service
           uri: http://auth-service:8083
           predicates:
-            - Path=/auth/**
+            - Path=/api/auth/**
           filters:
-            - RewritePath=/auth/(?<segment>.*), /api/v1/auth/${segment}
+            - RewritePath=/api/auth/(?<segment>.*), /api/v1/auth/${segment}
 
         # ================= PATIENT =================
         - id: patient-service
           uri: http://patient-service:8084
           predicates:
-            - Path=/patients/**
+            - Path=/api/patients/**
           filters:
-            - RewritePath=/patients/(?<segment>.*), /api/v1/patients/${segment}
+            - RewritePath=/api/patients/(?<segment>.*), /patient/api/v1/${segment}
 
         # ================= DOCTOR =================
         - id: doctor-service
           uri: http://doctor-service:8085
           predicates:
-            - Path=/doctors/**
+            - Path=/api/doctors/**
           filters:
-            - RewritePath=/doctors/(?<segment>.*), /api/v1/doctors/${segment}
+            - RewritePath=/api/doctors/(?<segment>.*), /doctor/api/v1/${segment}
+
+        # ================= NOTIFICATION =================
+        - id: notification-service
+          uri: http://notification-service:8087
+          predicates:
+            - Path=/api/notifications/**
+          filters:
+            - RewritePath=/api/notifications/(?<segment>.*), /api/v1/notifications/${segment}
+
+        # ================= ADMIN =================
+        - id: admin-service
+          uri: http://admin-service:8089
+          predicates:
+            - Path=/api/admin/**
+          filters:
+            - RewritePath=/api/admin/(?<segment>.*), /api/v1/admin/${segment}
+
+        # ================= AI SYMPTOM CHECK =================
+        - id: medisphere-AIsymptomcheck-service
+          uri: http://medisphere-AIsymptomcheck-service:8088
+          predicates:
+            - Path=/api/symptoms/**
+          filters:
+            - RewritePath=/api/symptoms/(?<segment>.*), /api/symptoms/${segment}
+
+        # ================= TELEMEDICINE (SESSIONS) =================
+        - id: medisphere-telemedicine-service-sessions
+          uri: http://medisphere-telemedicine-service:8086
+          predicates:
+            - Path=/api/sessions/**
+          filters:
+            - RewritePath=/api/sessions/(?<segment>.*), /api/sessions/${segment}
+
+        # ================= TELEMEDICINE (PRESCRIPTIONS) =================
+        - id: medisphere-telemedicine-service-prescriptions
+          uri: http://medisphere-telemedicine-service:8086
+          predicates:
+            - Path=/api/prescriptions/**
+          filters:
+            - RewritePath=/api/prescriptions/(?<segment>.*), /api/prescriptions/${segment}
 
 management:
   endpoints:
