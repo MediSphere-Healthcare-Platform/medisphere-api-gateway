@@ -92,6 +92,13 @@ spring:
           filters:
             - RewritePath=/api/prescriptions/(?<segment>.*), /api/prescriptions/${segment}
 
+gateway:
+  whitelist-urls:
+    - /api/v1/auth/register/patient
+    - /api/v1/auth/register/doctor
+    - /api/v1/auth/login
+    - /eureka
+
 management:
   endpoints:
     web:
