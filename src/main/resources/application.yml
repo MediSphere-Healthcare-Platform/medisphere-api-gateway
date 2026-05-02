@@ -10,11 +10,44 @@ spring:
 
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedMethods:
+              - "*"
+            allowedHeaders: "*"
+            allowCredentials: true
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin, RETAIN_FIRST
       routes:
+        # ================= TELEMEDICINE (HIGHEST PRIORITY) =================
+        - id: medisphere-telemedicine-service-doctors
+          uri: lb://medisphere-telemedicine-service
+          predicates:
+            - Path=/api/doctors,/api/doctors/
+
+        - id: medisphere-telemedicine-service-sessions
+          uri: lb://medisphere-telemedicine-service
+          predicates:
+            - Path=/api/sessions/**
+
+        - id: medisphere-telemedicine-service-prescriptions
+          uri: lb://medisphere-telemedicine-service
+          predicates:
+            - Path=/api/prescriptions/**
+
+        # ================= AUTH =================
+        - id: auth-service
+          uri: lb://medisphere-auth-service
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - RewritePath=/api/auth/(?<segment>.*), /api/v1/auth/${segment}
 
         # ================= APPOINTMENT =================
         - id: appointment-service
-          uri: http://appointment-service:8081
+          uri: lb://medisphere-appointment-service
           predicates:
             - Path=/api/appointments/**
           filters:
@@ -22,23 +55,15 @@ spring:
 
         # ================= PAYMENT =================
         - id: payment-service
-          uri: http://payment-service:8082
+          uri: lb://medisphere-payment-service
           predicates:
             - Path=/api/payment/**
           filters:
             - RewritePath=/api/payment/(?<segment>.*), /api/v1/payment/${segment}
 
-        # ================= AUTH =================
-        - id: auth-service
-          uri: http://auth-service:8083
-          predicates:
-            - Path=/api/auth/**
-          filters:
-            - RewritePath=/api/auth/(?<segment>.*), /api/v1/auth/${segment}
-
         # ================= PATIENT =================
         - id: patient-service
-          uri: http://patient-service:8084
+          uri: lb://medisphere-patient-service
           predicates:
             - Path=/api/patients/**
           filters:
@@ -46,7 +71,7 @@ spring:
 
         # ================= DOCTOR =================
         - id: doctor-service
-          uri: http://doctor-service:8085
+          uri: lb://medisphere-doctor-service
           predicates:
             - Path=/api/doctors/**
           filters:
@@ -54,7 +79,7 @@ spring:
 
         # ================= NOTIFICATION =================
         - id: notification-service
-          uri: http://notification-service:8087
+          uri: lb://medisphere-notification-service
           predicates:
             - Path=/api/notifications/**
           filters:
@@ -62,41 +87,26 @@ spring:
 
         # ================= ADMIN =================
         - id: admin-service
-          uri: http://admin-service:8089
+          uri: lb://medisphere-admin-service
           predicates:
             - Path=/api/admin/**
           filters:
             - RewritePath=/api/admin/(?<segment>.*), /api/v1/admin/${segment}
 
-        # ================= AI SYMPTOM CHECK =================
+        # ================= AI SYMPTOM CHECKER =================
         - id: medisphere-AIsymptomcheck-service
-          uri: http://medisphere-AIsymptomcheck-service:8088
+          uri: lb://medisphere-AIsymptomcheck-service
           predicates:
             - Path=/api/symptoms/**
           filters:
             - RewritePath=/api/symptoms/(?<segment>.*), /api/symptoms/${segment}
 
-        # ================= TELEMEDICINE (SESSIONS) =================
-        - id: medisphere-telemedicine-service-sessions
-          uri: http://medisphere-telemedicine-service:8086
-          predicates:
-            - Path=/api/sessions/**
-          filters:
-            - RewritePath=/api/sessions/(?<segment>.*), /api/sessions/${segment}
-
-        # ================= TELEMEDICINE (PRESCRIPTIONS) =================
-        - id: medisphere-telemedicine-service-prescriptions
-          uri: http://medisphere-telemedicine-service:8086
-          predicates:
-            - Path=/api/prescriptions/**
-          filters:
-            - RewritePath=/api/prescriptions/(?<segment>.*), /api/prescriptions/${segment}
-
 gateway:
   whitelist-urls:
-    - /api/v1/auth/register/patient
-    - /api/v1/auth/register/doctor
-    - /api/v1/auth/login
+    - /api/auth/register/patient
+    - /api/auth/register/doctor
+    - /api/auth/login
+    - /api/admin/doctors/pending
     - /eureka
 
 management:
@@ -107,4 +117,4 @@ management:
 
 logging:
   level:
-    org.springframework.cloud.gateway: DEBUG
+    org.springframework.cloud.gateway: TRACE
